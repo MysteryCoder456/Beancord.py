@@ -10,6 +10,13 @@
             "request": "launch",
             "program": "app/main.py",
             "console": "integratedTerminal"
+        },
+        {
+            "name": "Python: Run Server",
+            "type": "python",
+            "request": "launch",
+            "program": "server/main.py",
+            "console": "integratedTerminal"
         }
     ]
 }
