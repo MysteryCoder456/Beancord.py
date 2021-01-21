@@ -1,23 +1,28 @@
 import socket
 from kivy.app import App
 from kivy.uix.widget import Widget
+from kivy.properties import ObjectProperty
 
-# s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-# s.connect(("127.0.0.1", 8000))
-# s.send(b"CodeBean")
-# s.send(b"[SENDER]CodeBean[SENDER]|[CONTENT]wassup[CONTENT]")
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
 
-class MainWidget(Widget):
-    pass
+class LoginScreen(Widget):
+    username_entry = ObjectProperty(None)
+    ip_entry = ObjectProperty(None)
+    port_entry = ObjectProperty(None)
 
 
 class Beancord(App):
     def build(self):
-        return MainWidget()
+        return LoginScreen()
 
 
 if __name__ == "__main__":
     Beancord().run()
-    # s.send(b"QUIT")
-    # s.close()
+
+    try:
+        s.send(b"QUIT")
+    except Exception as e:
+        print(e)
+
+    s.close()

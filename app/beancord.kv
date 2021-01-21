@@ -1,9 +1,36 @@
-<MainWidget>
+<LoginScreen>
+    username_entry: username
+    ip_entry: ip
+    port_entry: port
+
     GridLayout:
-        cols: 1
-        padding: 5
+        cols: 2
         size: root.width, root.height
 
+        # Username Entry
         Label:
-            text: "hi there fellow human"
-            color: "#FF0000"
+            text: "Username:"
+
+        TextInput:
+            id: username
+            multiline: False
+            size: 100, 50
+
+        # Address Entry
+        Label:
+            text: "Server Address:"
+
+        TextInput:
+            id: ip
+            multiline: False
+            size: 100, 50
+
+        # Port Entry
+        Label:
+            text: "Server Port:"
+
+        TextInput:
+            id: port
+            text_hint: "(Optional)"
+            multiline: False
+            size: 100, 50
