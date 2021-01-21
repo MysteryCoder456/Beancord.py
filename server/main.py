@@ -24,7 +24,7 @@ def accept_new_clients():
         client_socket, addr = s.accept()
         new_client_username = client_socket.recv(MSG_LENGTH).decode("utf8")
 
-        if len([c for c in clients if c[1] == new_client_username]) > 0:
+        if len([key for key in clients if clients[key][1] == new_client_username]) > 0:
             client_socket.send(b"[DUPLICATE NAME]")
             client_socket.close()
             continue
