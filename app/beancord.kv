@@ -1,10 +1,6 @@
 <TextInput>
     size_hint: (0.5, 0.1)
 
-<Label>
-    size_hint: (0.5, 0.1)
-    font_size: 20
-
 
 <LoginWindow>:
     name: "login"
@@ -17,6 +13,8 @@
     Label:
         text: "Username:"
         pos_hint: {"y": 0.9, "right": 0.5}
+        size_hint: (0.5, 0.1)
+        font_size: 20
 
     TextInput:
         id: username
@@ -27,6 +25,8 @@
     Label:
         text: "Server Address:"
         pos_hint: {"y": 0.75, "right": 0.5}
+        size_hint: (0.5, 0.1)
+        font_size: 20
 
     TextInput:
         id: ip
@@ -37,6 +37,8 @@
     Label:
         text: "Server Port:"
         pos_hint: {"y": 0.6, "right": 0.5}
+        size_hint: (0.5, 0.1)
+        font_size: 20
 
     TextInput:
         id: port
@@ -44,6 +46,7 @@
         multiline: False
         pos_hint: {"y": 0.6, "right": 1}
 
+    # Connect Button
     Button:
         text: "Connect"
         pos_hint: {"x": 0.3, "y": 0.2}
@@ -54,5 +57,43 @@
 <MainWindow>:
     name: "main"
 
-    Label:
-        text: "Coming soon..."
+    messages_grid: messages
+    message_entry: message_input
+
+    ScrollView:
+        do_scroll_x: False
+        do_scroll_y: True
+
+        GridLayout:
+            id: messages
+            cols: 2
+            pos_hint: {"left": 0, "top": 1}
+            size_hint: (1, 0.8)
+            row_default_height: 35
+            row_force_default: True
+
+            Label:
+                text: "Tutorial Man"
+                bold: True
+                size_hint_x: 0.2
+
+            Label:
+                text: "Hey there Beancord user. What's good?"
+                text_size: self.size
+                halign: "left"
+                valign: "middle"
+
+    GridLayout:
+        cols: 2
+        pos_hint: {"left": 0, "top": 0.2}
+        size_hint_y: 0.2
+
+        TextInput:
+            id: message_input
+            text_hint: "Your message..."
+            multiline: True
+
+        Button:
+            text: "Send"
+            size_hint_x: 0.1
+            on_press: root.send_message()

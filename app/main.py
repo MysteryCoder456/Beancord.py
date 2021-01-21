@@ -103,8 +103,21 @@ class LoginWindow(Screen, FloatLayout):
             self.manager.current = "main"
 
 
-class MainWindow(Screen):
-    pass
+class MainWindow(Screen, FloatLayout):
+    messages_grid = ObjectProperty(None)
+    message_entry = ObjectProperty(None)
+
+    def __init__(self, **kwargs):
+        super(MainWindow, self).__init__(**kwargs)
+        self.messages_grid.bind(minimum_height=self.messages_grid.setter('height'))
+
+    def send_message(self):
+        msg_content = self.message_entry.text
+        encoded_message  = f"[SENDER]{username}[SENDER]|[CONTENT]{msg_content}[CONTENT]".encode("utf8")
+
+        s.send(encoded_message)
+        print("Sending message:", msg_content)
+        self.message_entry.text = ""
 
 
 class WindowManager(ScreenManager):
