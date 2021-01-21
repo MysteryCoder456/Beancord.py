@@ -1,36 +1,42 @@
+<TextInput>
+    size_hint: (0.5, 0.1)
+
+<Label>
+    size_hint: (0.5, 0.1)
+    font_size: 20
+
 <LoginScreen>
     username_entry: username
     ip_entry: ip
     port_entry: port
 
-    GridLayout:
-        cols: 2
-        size: root.width, root.height
+    # Username Entry
+    Label:
+        text: "Username:"
+        pos_hint: {"y": 0.9, "right": 0.5}
 
-        # Username Entry
-        Label:
-            text: "Username:"
+    TextInput:
+        id: username
+        multiline: False
+        pos_hint: {"y": 0.9, "right": 1}
 
-        TextInput:
-            id: username
-            multiline: False
-            size: 100, 50
+    # Address Entry
+    Label:
+        text: "Server Address:"
+        pos_hint: {"y": 0.75, "right": 0.5}
 
-        # Address Entry
-        Label:
-            text: "Server Address:"
+    TextInput:
+        id: ip
+        multiline: False
+        pos_hint: {"y": 0.75, "right": 1}
 
-        TextInput:
-            id: ip
-            multiline: False
-            size: 100, 50
+    # Port Entry
+    Label:
+        text: "Server Port:"
+        pos_hint: {"y": 0.6, "right": 0.5}
 
-        # Port Entry
-        Label:
-            text: "Server Port:"
-
-        TextInput:
-            id: port
-            text_hint: "(Optional)"
-            multiline: False
-            size: 100, 50
+    TextInput:
+        id: port
+        text_hint: "(Optional)"
+        multiline: False
+        pos_hint: {"y": 0.6, "right": 1}

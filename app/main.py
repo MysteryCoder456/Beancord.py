@@ -1,12 +1,12 @@
 import socket
 from kivy.app import App
-from kivy.uix.widget import Widget
+from kivy.uix.floatlayout import FloatLayout
 from kivy.properties import ObjectProperty
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
 
-class LoginScreen(Widget):
+class LoginScreen(FloatLayout):
     username_entry = ObjectProperty(None)
     ip_entry = ObjectProperty(None)
     port_entry = ObjectProperty(None)
