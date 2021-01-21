@@ -5,7 +5,10 @@
     size_hint: (0.5, 0.1)
     font_size: 20
 
-<LoginScreen>
+
+<LoginWindow>:
+    name: "login"
+
     username_entry: username
     ip_entry: ip
     port_entry: port
@@ -40,3 +43,16 @@
         text_hint: "(Optional)"
         multiline: False
         pos_hint: {"y": 0.6, "right": 1}
+
+    Button:
+        text: "Connect"
+        pos_hint: {"x": 0.3, "y": 0.2}
+        size_hint: (0.4, 0.2)
+        on_press: root.connect()
+
+
+<MainWindow>:
+    name: "main"
+
+    Label:
+        text: "Coming soon..."
