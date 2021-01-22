@@ -5,15 +5,17 @@ import random
 import sqlite3
 
 ADDR, PORT = "0.0.0.0", 8000
+MSG_LENGTH = 2048
+DATETIME_FORMAT = "%Y-%m-%d %H:%M:%S"
+
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.bind((ADDR, PORT))
 s.listen()
 
-MSG_LENGTH = 2048
 clients = {}
 
 db_file = "db.sqlite3"
-conn = sqlite3.connect(db_file)
+conn = sqlite3.connect(db_file, check_same_thread=False)
 c = conn.cursor()
 
 
@@ -22,9 +24,10 @@ def create_db_tables():
     CREATE TABLE IF NOT EXISTS "messages" (
 	    "sender"	TEXT,
 	    "content"	TEXT,
-	    "date_sent"	TEXT
+	    "datetime"	TEXT
     )
     """)
+    conn.commit()
 
 
 def generate_uuid():
@@ -83,8 +86,24 @@ def listen_for_messages(client_socket, uuid):
             if clients[uuid] is not clients[key]:
                 clients[key][0].send(msg)
 
+        current_datetime = datetime.datetime.now().strftime(DATETIME_FORMAT)
+
+        c.execute(
+            "INSERT INTO messages VALUES (:sender, :content, :datetime)",
+            {
+                "sender": msg_sender,
+                "content": msg_content,
+                "datetime": current_datetime
+            }
+        )
+
+        conn.commit()
+
 
 def main():
+    print("Creating Database Tables...")
+    create_db_tables()
+
     print("Listening for connections...")
     accept_new_clients()
 
