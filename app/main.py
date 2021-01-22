@@ -114,12 +114,9 @@ class LoginWindow(Screen, FloatLayout):
 
 
 class MainWindow(Screen, FloatLayout):
+    scroll_view = ObjectProperty(None)
     messages_grid = ObjectProperty(None)
     message_entry = ObjectProperty(None)
-
-    def __init__(self, **kwargs):
-        super(MainWindow, self).__init__(**kwargs)
-        self.messages_grid.bind(minimum_height=self.messages_grid.setter('height'))
 
     def on_pre_enter(self):
         msg_listen_thread = threading.Thread(target=self.listen_for_messages, daemon=True)
@@ -148,6 +145,7 @@ class MainWindow(Screen, FloatLayout):
 
             self.messages_grid.add_widget(sender_label)
             self.messages_grid.add_widget(content_label)
+            self.scroll_view.scroll_to(content_label, padding=100)
 
     def send_message(self):
         msg_content = self.message_entry.text

@@ -67,10 +67,12 @@
 <MainWindow>:
     name: "main"
 
+    scroll_view: scroll
     messages_grid: messages
     message_entry: message_input
 
     ScrollView:
+        id: scroll
         do_scroll_x: False
         do_scroll_y: True
 
@@ -78,7 +80,8 @@
             id: messages
             cols: 2
             pos_hint: {"left": 0, "top": 1}
-            size_hint: (1, 0.8)
+            size_hint: (1, None)
+            height: self.minimum_height + 100
             row_default_height: 35
             row_force_default: True
 
@@ -90,8 +93,8 @@
 
     GridLayout:
         cols: 2
-        pos_hint: {"left": 0, "top": 0.2}
-        size_hint_y: 0.2
+        pos_hint: {"left": 0, "top": 0.1}
+        size_hint_y: 0.1
 
         TextInput:
             id: message_input
