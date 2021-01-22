@@ -1,6 +1,16 @@
 <TextInput>
     size_hint: (0.5, 0.1)
 
+<SenderLabel>
+    bold: True
+    size_hint_x: 0.2
+    valign: "middle"
+
+<MessageLabel>
+    text_size: self.size
+    halign: "left"
+    valign: "middle"
+
 
 <LoginWindow>:
     name: "login"
@@ -72,16 +82,11 @@
             row_default_height: 35
             row_force_default: True
 
-            Label:
+            SenderLabel:
                 text: "Tutorial Man"
-                bold: True
-                size_hint_x: 0.2
 
-            Label:
+            MessageLabel:
                 text: "Hey there Beancord user. What's good?"
-                text_size: self.size
-                halign: "left"
-                valign: "middle"
 
     GridLayout:
         cols: 2

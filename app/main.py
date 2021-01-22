@@ -1,14 +1,24 @@
 import socket
+import threading
 from kivy.app import App
 from kivy.uix.floatlayout import FloatLayout
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.uix.popup import Popup
 from kivy.uix.button import Button
+from kivy.uix.label import Label
 from kivy.properties import ObjectProperty
 
 MSG_LENGTH = 2048
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 username = None
+
+
+class SenderLabel(Label):
+    pass
+
+
+class MessageLabel(Label):
+    pass
 
 
 class LoginWindow(Screen, FloatLayout):
@@ -110,6 +120,34 @@ class MainWindow(Screen, FloatLayout):
     def __init__(self, **kwargs):
         super(MainWindow, self).__init__(**kwargs)
         self.messages_grid.bind(minimum_height=self.messages_grid.setter('height'))
+
+    def on_pre_enter(self):
+        msg_listen_thread = threading.Thread(target=self.listen_for_messages, daemon=True)
+        msg_listen_thread.start()
+
+    def listen_for_messages(self):
+        while True:
+            try:
+                msg = s.recv(MSG_LENGTH)
+            except Exception as e:
+                print(e)
+                return
+
+            msg_split = msg.decode("utf8").split("|", 1)
+            msg_sender = msg_split[0].strip("[SENDER]")
+
+            sender_label = SenderLabel(text=msg_sender)
+
+            if msg_split[1] == "[QUIT]":
+                content_label = MessageLabel(text="has left the chat...", bold=True)
+                print(f"{msg_sender} has left the chat...")
+            else:
+                msg_content = msg_split[1].strip("[CONTENT]")
+                content_label = MessageLabel(text=msg_content)
+                print(f"{msg_sender} says: {msg_content}")
+
+            self.messages_grid.add_widget(sender_label)
+            self.messages_grid.add_widget(content_label)
 
     def send_message(self):
         msg_content = self.message_entry.text
