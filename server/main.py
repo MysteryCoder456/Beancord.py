@@ -77,7 +77,7 @@ def listen_for_messages(client_socket, uuid):
     while True:
         msg = client_socket.recv(MSG_LENGTH)
         msg_split = msg.decode("utf8").split("|", 1)
-        msg_sender = msg_split[0].strip("[SENDER]")
+        msg_sender = msg_split[0].replace("[SENDER]", "")
 
         if msg_split[1] == "[QUIT]":
             client_socket.close()
@@ -89,7 +89,7 @@ def listen_for_messages(client_socket, uuid):
 
             return
 
-        msg_content = msg_split[1].strip("[CONTENT]")
+        msg_content = msg_split[1].replace("[CONTENT]", "")
         print(f"{msg_sender} says: {msg_content}")
 
         for key in clients:

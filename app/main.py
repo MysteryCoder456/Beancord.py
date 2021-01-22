@@ -131,7 +131,7 @@ class MainWindow(Screen, FloatLayout):
                 return
 
             msg_split = msg.decode("utf8").split("|", 1)
-            msg_sender = msg_split[0].strip("[SENDER]")
+            msg_sender = msg_split[0].replace("[SENDER]", "")
 
             sender_label = SenderLabel(text=msg_sender)
 
@@ -144,7 +144,7 @@ class MainWindow(Screen, FloatLayout):
                 print(f"{msg_sender} has joined the chat...")
 
             else:
-                msg_content = msg_split[1].strip("[CONTENT]")
+                msg_content = msg_split[1].replace("[CONTENT]", "")
                 content_label = MessageLabel(text=msg_content)
                 print(f"{msg_sender} says: {msg_content}")
 
