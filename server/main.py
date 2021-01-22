@@ -1,3 +1,4 @@
+import datetime
 import threading
 import socket
 import random
@@ -10,6 +11,20 @@ s.listen()
 
 MSG_LENGTH = 2048
 clients = {}
+
+db_file = "db.sqlite3"
+conn = sqlite3.connect(db_file)
+c = conn.cursor()
+
+
+def create_db_tables():
+    c.execute("""
+    CREATE TABLE IF NOT EXISTS "messages" (
+	    "sender"	TEXT,
+	    "content"	TEXT,
+	    "date_sent"	TEXT
+    )
+    """)
 
 
 def generate_uuid():
