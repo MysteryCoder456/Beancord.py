@@ -1,5 +1,5 @@
 # Beancord
-Cool chatting app made with Python and Kivy. It also stores your messages so that you can continues your convos where you left off.
+Cool chatting app made with Python and Kivy. It also stores your messages so that you can continue your convos where you left off.
 
 ## Running the app
 To run the app, go into the `app` folder and run `main.py`.
