@@ -3,6 +3,7 @@ import threading
 import socket
 import random
 import sqlite3
+import time
 
 ADDR, PORT = "0.0.0.0", 8000
 MSG_LENGTH = 2048
@@ -61,6 +62,15 @@ def accept_new_clients():
         for key in clients:
             if clients[new_uuid] is not clients[key]:
                 clients[key][0].send(join_msg)
+
+        c.execute("SELECT * FROM messages")
+        messages = c.fetchall()
+        messages.sort(key=lambda x: datetime.datetime.strptime(x[2], DATETIME_FORMAT))
+
+        for message in messages:
+            encoded_msg = f"[SENDER]{message[0]}[SENDER]|[CONTENT]{message[1]}[CONTENT]".encode("utf8")
+            client_socket.send(encoded_msg)
+            time.sleep(0.05)  # time delay to not overwhelm client
 
 
 def listen_for_messages(client_socket, uuid):
