@@ -138,6 +138,11 @@ class MainWindow(Screen, FloatLayout):
             if msg_split[1] == "[QUIT]":
                 content_label = MessageLabel(text="has left the chat...", bold=True)
                 print(f"{msg_sender} has left the chat...")
+
+            elif msg_split[1] == "[JOIN]":
+                content_label = MessageLabel(text="has joined the chat...", bold=True)
+                print(f"{msg_sender} has joined the chat...")
+
             else:
                 msg_content = msg_split[1].strip("[CONTENT]")
                 content_label = MessageLabel(text=msg_content)
@@ -152,6 +157,10 @@ class MainWindow(Screen, FloatLayout):
 
     def send_message(self):
         msg_content = self.message_entry.text
+
+        if msg_content.strip() == "":
+            return
+
         encoded_message = f"[SENDER]{username}[SENDER]|[CONTENT]{msg_content}[CONTENT]".encode("utf8")
 
         s.send(encoded_message)

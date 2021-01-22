@@ -39,6 +39,11 @@ def accept_new_clients():
 
         print(f"New Connection from {addr}.\nUsername: {new_client_username}, UUID: {new_uuid}")
 
+        join_msg = f"[SENDER]{new_client_username}[SENDER]|[JOIN]".encode("utf8")
+        for key in clients:
+            if clients[new_uuid] is not clients[key]:
+                clients[key][0].send(join_msg)
+
 
 def listen_for_messages(client_socket, uuid):
     while True:
