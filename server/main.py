@@ -70,7 +70,7 @@ def accept_new_clients():
         for message in messages:
             encoded_msg = f"[SENDER]{message[0]}[SENDER]|[CONTENT]{message[1]}[CONTENT]".encode("utf8")
             client_socket.send(encoded_msg)
-            time.sleep(0.05)  # time delay to not overwhelm client
+            time.sleep(0.02)  # time delay to not overwhelm client
 
 
 def listen_for_messages(client_socket, uuid):
