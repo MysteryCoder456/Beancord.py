@@ -152,10 +152,21 @@ class MainWindow(Screen, FloatLayout):
 
     def send_message(self):
         msg_content = self.message_entry.text
-        encoded_message  = f"[SENDER]{username}[SENDER]|[CONTENT]{msg_content}[CONTENT]".encode("utf8")
+        encoded_message = f"[SENDER]{username}[SENDER]|[CONTENT]{msg_content}[CONTENT]".encode("utf8")
 
         s.send(encoded_message)
         print("Sending message:", msg_content)
+
+        sender_label = SenderLabel(text=username)
+        content_label = MessageLabel(text=msg_content)
+
+        self.messages_grid.add_widget(sender_label)
+        self.messages_grid.add_widget(content_label)
+
+        window_size = self.get_root_window().size
+        if len(self.messages_grid.children) / 2 * self.messages_grid.row_default_height > window_size[1] * 0.9:
+            self.scroll_view.scroll_to(content_label, padding=self.messages_grid.row_default_height * 2)
+
         self.message_entry.text = ""
 
 

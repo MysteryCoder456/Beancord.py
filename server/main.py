@@ -60,7 +60,8 @@ def listen_for_messages(client_socket, uuid):
         print(f"{msg_sender} says: {msg_content}")
 
         for key in clients:
-            clients[key][0].send(msg)
+            if clients[uuid] is not clients[key]:
+                clients[key][0].send(msg)
 
 
 def main():
