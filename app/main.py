@@ -1,3 +1,4 @@
+import os
 import socket
 import threading
 from kivy.app import App
@@ -7,8 +8,11 @@ from kivy.uix.popup import Popup
 from kivy.uix.button import Button
 from kivy.uix.label import Label
 from kivy.properties import ObjectProperty
+from playsound import playsound
 
 MSG_LENGTH = 2048
+BASE_DIR = os.path.dirname(os.path.realpath(__file__))
+NOTIFICATION_SOUND = os.path.join(BASE_DIR, "assets", "sounds", "notification.wav")
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 username = None
 
@@ -154,6 +158,10 @@ class MainWindow(Screen, FloatLayout):
             window_size = self.get_root_window().size
             if len(self.messages_grid.children) / 2 * self.messages_grid.row_default_height > window_size[1] * 0.9:
                 self.scroll_view.scroll_to(content_label, padding=self.messages_grid.row_default_height * 2)
+
+            if not self.get_root_window().focus:
+                notification_thread = threading.Thread(target=playsound, args=(NOTIFICATION_SOUND,), daemon=True)
+                notification_thread.start()
 
     def send_message(self):
         msg_content = self.message_entry.text
