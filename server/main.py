@@ -1,3 +1,4 @@
+import os
 import datetime
 import threading
 import socket
@@ -8,6 +9,7 @@ import time
 ADDR, PORT = "0.0.0.0", 8000
 MSG_LENGTH = 2048
 DATETIME_FORMAT = "%Y-%m-%d %H:%M:%S"
+BASE_DIR = os.path.dirname(os.path.realpath(__file__))
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.bind((ADDR, PORT))
@@ -15,7 +17,7 @@ s.listen()
 
 clients = {}
 
-db_file = "db.sqlite3"
+db_file = os.path.join(BASE_DIR, "db.sqlite3")
 conn = sqlite3.connect(db_file, check_same_thread=False)
 c = conn.cursor()
 
@@ -70,7 +72,7 @@ def accept_new_clients():
         for message in messages:
             encoded_msg = f"[SENDER]{message[0]}[SENDER]|[CONTENT]{message[1]}[CONTENT]".encode("utf8")
             client_socket.send(encoded_msg)
-            time.sleep(0.02)  # time delay to not overwhelm client
+            time.sleep(0.03)  # time delay to not overwhelm client
 
 
 def listen_for_messages(client_socket, uuid):
